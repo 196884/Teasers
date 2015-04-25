@@ -1,0 +1,296 @@
+% A set of riddles / teasers of variable difficulty collected over the years from friends, colleagues, online sources, books,...
+
+% To toggle compilation with or without the solutions
+%\newcommand{\wrapsol}[1]{#1}
+\newcommand{\wrapsol}[1]{}
+
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{fullpage}
+
+\begin{document}
+
+\title{A random collection of puzzles}
+\maketitle
+
+\section*{Introduction}
+
+This is a small collection of puzzles and teasers, mostly mathematics- and algorithmics-oriented. I've collected them over the years from friends, colleagues, books, websites,\ldots They are of varying difficulty, though not ordered in any way.
+
+%%S
+\section{Constructing integers {\it via} trigonometric functions}
+
+%%%%S
+\subsection{Problem}
+
+Define the four functions~$f_0=\sin $, $f_1=\cos $, $f_2=\tan $ and~$f_4=\mathrm{cotan}$, and further define~$f_4$ to~$f_7$ to be their respective inverses. Can you find a finite sequence~$(i_1, i_2,\ldots ,i_N)$ such that
+$$
+f_{i_N}\left( \ldots f_{i_2}\left( f_{i_1}(1)\right) \ldots \right) = 2015?
+$$
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Note that $\mathrm{cotan}\left( \tan ^{-1}(x)\right) = \frac{1}{x}$, so that if we can generate a number, we can also generate its inverse.
+
+Now, we prove by induction that all square roots of integers can be generated: assume that you have $\sqrt{n}$ for some integer~$n>0$, then
+$$
+\sqrt{n+1}=\frac{1}{\cos \left( \tan ^{-1}\left( \sqrt{n} \right) \right) },
+$$
+which (together with the remark above) proves the result.
+}
+
+%%S
+\section{Covering a disk with rectangles}
+
+%%%%S
+\subsection{Problem}
+
+Is it possible to completely cover a disk of diameter~$10$ using~$9$ rectangles of size~$1$ by~$10$? (Note that the rectangles can overlap).
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+It is indeed not possible. For a proof, consider the function
+$$
+f(x, y)=\frac{1}{\sqrt{R^2-\left( x^2+y^2\right) }}
+$$
+defined on a disk of radius~$R$ centered at the origin. It is clearly invariant by rotation, and a simple computation shows that the integral of this function with the intersection of a rectangle of width~$w$ and arbitrary length is always less than~$\pi w$, while the integral over the whole disk is~$2\pi R$. This proves that the sum of the width of the planks must be at least~$2R$ to cover the disk.
+
+It might be simpler to think about this in 3D: if we consider a sphere of radius~$R$, and 'cut' this sphere by two parallel planes at distance~$w$ from each other, then the surface of the piece of sphere thus defined is always less than~$2\pi R^2w$. If one could solve the problem for the disc, one would get a way to solve the corresponding problem in 3D.
+}
+
+%%S
+\section{Finding a cycle}
+
+%%%%S
+\subsection{Problem}
+
+Let~$f$ be a black-box function over the integers, and let~$(x_n)$ be the sequence defined by~$x_0=0$ and~$x_{n+1}=f(x_n)$. Suppose there exists~$a$ and~$b$ such that for all $n\geq a$, $x_{n+b}=x_n$. Give an algorithm to determine~$a$ and~$b$.
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+A well-known algorithm to solve this is Floyd's cycle finding algorithm: compute~$x_n$ and~$x_{2n}$ simultaneously, until you find~$N$ such that $x_N=x_{2N}$. It is then clear that~$a\leq N$ and~$b$ divides~$N$. The cycle length~$b$ is then the smallest integer~$k$ such that~$x_{N+k}=x_N$, and~$a$ is the largest integer~$k$ such that~$x_{b+k}\neq x_b$. This uses constant space, and has time complexity in~$O(a+b)$.
+
+An alternative is Brent's algorithm. Pollard's Rho method for factorizing integers uses such cycle finding routines.
+}
+
+%%S
+\section{Covering points with a disk}
+
+%%%%S
+\subsection{Problem}
+
+Given~$N$ points in the plane given by their coordinates~$(x_i, y_i)$ (arbitrary real numbers, 'doubles' for example) and some real number~$R>0$, give an algorithm to determine a maximal subset of these points that can be simultaneously covered by a disk or radius~$R$, and its complexity as a function of~$N$.
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+For each pair of points at a distance less than~$2R$, consider the two discs of radius~$R$ that have these two points on their border, and for each of these two discs, count the number of points they contain (there is a solution using one of these discs). The complexity of this method is~$O(N^3)$. 
+}
+
+%%S
+\section{Recovering a polynomial}
+
+%%%%S
+\subsection{Problem}
+
+Let~$P$ be a polynomial with positive integer coefficients, that's unknown to you. You have a black-box function to evaluate~$P$ at any point you choose. Give an algorithm to determine the coefficients of~$P$ that minimizes the number of evaluations needed.
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+First, evaluate~$P(1)$: since all coefficients are positive, it gives you an upper bound on the coefficients. Then evaluate~$P\left( 10^k\right) $ where~$k$ is such that~$10^k>P(1)$: this allows you to directly 'read' the coefficients in the result.
+}
+
+%%S
+\section{Finding a pirate ship}
+
+%%%%S
+\subsection{Problem}
+
+You are on a government ship, and are looking for a pirate ship. You know that the pirate ship sails on a straight line, at a fixed speed. You know its speed, but not the line on which it sails. You can travel at up to twice its speed. At some instant, you are given its exact position. Can you make sure that you can intercept the pirate ship (that is, make sure taht at some point in time, you'll end up at exactly the same position)?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Spiral around the position that you're given for the pirate ship; your radial speed should be equal to that of the pirate ship, and your angular speed can be deduced from your total speed. For example, assume that at time~$t=0$, the pirate ship is at the origin, and you're at~$(x_0,0)$ (where~$x_0>0$). If~$c$ is the speed of the pirate ship, then at time~$\tau =\frac{x_0}{2c}$, you can be at the point~$(c\tau,0)$, which is at the same distance of the origin as the pirate ship. In polar coordinates, the government ship can then follow a trajectory such that its radial speed is constant at~$c$ (so that it's always on the same circle centered at the origin as the pirate ship), and can adjust its angular speed so that its total speed matches its maximum speed of~$2c$, which gives an angular speed of~$\frac{d\theta }{dt}=\frac{\sqrt{3}c}{r}$ (where~$r=ct$). The pirate ship can then be intercepted before time~$T$ defined by
+$$
+\int _{\tau }^Td\theta = \int _{\tau }^T \frac{\sqrt{3}dt}{t}=2\pi,
+$$
+which gives~$T=\tau \exp \left( \frac{2\pi }{\sqrt{3}}\right) $.
+}
+
+%%S
+\section{Chip testing chips}
+
+%%%%S
+\subsection{Problem}
+
+You have a set of~$n$ chips, which are designed to test chips. Some of them work, some don't: when you use a working chip to test another chip, it will always give you the correct result; however, if you use a defective chip to test another chip, you can't assume anything as to what result it will give you. Give an algorithm that, assuming there's a strict majority of working chips, determines exactly which chips are working and which are defective. What worst case complexity (measured in number of individual tests) can you achieve?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Note that, if you have two chips~$C_1$ and~$C_2$ and use each one to test the other one, then:
+\begin{itemize}
+\item if both results are 'working' then~$C_1$ and~$C_2$ are either both working or both defective;
+\item otherwise, at least one of them is defective.
+\end{itemize}
+
+Our algorithm is now as follows:
+\begin{enumerate}
+\item if~$n$ is odd, choose one of the circuits, and have it tested by all the other ones: if a (non strict) majority of the results is 'working', then it must be working (in which case we're done, as this circuit can be used to test all the others); otherwise it's defective and we can discard it and restrict ourselves to the case where~$n$ is even.
+\item arrange the circuits in pairs and perform mutual testing within each pair, discarding all pairs for which at least one of the two results is 'defective' (at this point, a strict majority of the remaining circuits must be working, as each discarded pair contains at least one defective circuit);
+\item for each remaining pair, we can keep a single circuit since both have the same state;
+\item we iterate the process until we find a working circuit (either via the first step above, or because only one remains at some stage), which can then be used to test all the others.
+\end{enumerate}
+
+If we start a cycle with~$k$ circuits, this step will use at most~$2k$ tests and results in at most~$k/2$ circuits left, so the total number of tests needed to find a working circuit is
+$$
+\sum _{j\geq 0}\left \lfloor \frac{2n}{2^j}\right \rfloor \leq 4n;
+$$
+so the overall complexity is in~$O(n)$.
+}
+
+%%S
+\section{Alternating T-shirt colors}
+
+%%%%S
+\subsection{Problem}
+
+There are~$n>1$ prisoners, and each one is given a hat with a real number written on it. No two prisoners have the same number on their hats, and each prisoner can see the numbers given to all the others, but not his. Then all prisoners are taken to their respective cells, where they are given the choice between getting a white T-shirt or a black one. They then go back to the yard with their new T-shirts on, and are placed on a line, ordered according to the numbers on their hats.
+
+Find a strategy that they can agree on beforehand that maximizes the probability that they end up in the line with alternating T-shirt colors. Of course, they cannot communicate between themselves (the only information they have is that they see the numbers assigned to the others).
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+The prisoners can actually always make sure that they end up with alternating T-shirt colors. Suppose that the prisoners agree on numbering themselves from~$0$ to~$n-1$ beforehand. Then the numbers on their hats induce a permutation~$\sigma $ of the set~$[0,n-1]$ (which corresponds to the order in which they'll be placed in the line). By seeing the others in the yard, prisoner number~$k$ knows the permutation~$\sigma _k$ that is induced by the hat numbering on the~$n-1$ other prisoners. Note that, for all~$k\in [0,n-1]$:
+$$
+p(\sigma _k)=(-1)^{\sigma (k)-k}p(\sigma ),
+$$
+where~$p$ denotes the parity (or signature) of the permutation. To see why this is, note that~$\sigma $ can be decomposed into~$n-k$ adjacent transpositions to move~$k$ to the last position, then apply~$\sigma _k$ on the first~$n-1$ elements, then~$n-\sigma (k)$ adjacent transpositions to move~$k$ to its final position~$\sigma (k)$. 
+
+Prisoner~$k$ can then compute the quantity~$(-1)^{\sigma (k)p(\sigma )}$, and use it to determine the color of the T-shirt he'll ask for. 
+}
+
+%%S
+\section{Marbles colliding on a line}
+
+%%%%S
+\subsection{Problem}
+
+There are~$m$ marbles rolling along a line in one direction, and~$n$ others rolling along the same line in the opposite direction. Initially, all marbles have the same speed and are separated from one another. At some point, they will start colliding. The collisions are assumed to be elastic. How many collisions will there be?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+For all practical purposes, since the collisions are elastic, the setting is unchanged if we assume that the marbles can pass through each other. This gives~$m\times n$ total collisions (assuming the initial configuration is two groups moving towards each other).
+}
+
+%%S
+\section{Designating a square on a chessboard}
+
+%%%%S
+\subsection{Problem}
+
+Two players play this game together against an opponent, and can agree on a strategy beforehand. The opponent shows the first player a chessboard, on which he has placed a coin on each square (choosing which face of each coin is showing). He then designates one of the squares of the chessboard to the first player. At this point, this player hast to flip exactly one coin (of his choosing) on the chessboard. The second player is then shown the final chessboard configuration, and has to guess which square the opponent chose.
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+We number the coins~$C_0,\ldots ,C_{63}$ and define~$6$ sets of coins ($S_0$ to~$S_6$) as follows: $C_k\in S_n$ if and only if the~$n$-th bit of the binary form of~$k$ is one.
+
+We then consider the number~$M$ which~$m$-th bit is~$0$ if~$S_m$ contains an even number of coins showing heads, and~$1$ otherwise. Note that~$M$ is a $6$-bit number, so $M\in [0,63]$.
+
+Our claim is that by flipping exactly one of the coins, we can set~$M$ to any value we want: if we have a target value~$V\in [0,63]$ and set~$D=\mathop{XOR}(M,V)$, then flipping the coin~$C_D$ will achieve that goal.
+
+}
+
+%%S
+\section{'Guessing' one card out of~$5$}
+
+%%%%S
+\subsection{Problem}
+
+You are given~$5$ cards taken at random from a regular~$52$ card deck. You then have to choose~$4$ of them, and pass them in any order you choose to a friend. Seeing these cards, your friend should be able to guess what the fifth card (the one you kept) is.
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Out of the~$5$ cards, $2$ must be of the same suit. Furthermore, if you arrange the cards in each suit in an oriented cycle (which has length~$13$), then one of these~$2$ cards must be at most~$6$ steps away from the other in this cycle. You can then choose to keep this card to yourself, and let the other one be the first one you pass to your friend. He then knows which suit the card to guess belongs to (and that it has to be at most $6$-steps away from this first card in the oriented cycle). You then have~$6$ different choices for the order in which you pass the $3$ remaining cards, enabling you to pass enough information for your friend to guess what the fifth card is.
+}
+
+%%S
+\section{Finding your picture in an envelope}
+
+%%%%S
+\subsection{Problem}
+
+There is an even number~$n$ of players playing the following game: they're numbered from~$1$ to~$n$ (assume that each one wears a badge with his number on, so that they number know what number each one is). Then they each have their picture taken, and the pictures are randomly placed in~$n$ envelopes numbered from~$1$ to~$n$ (one picture per envelope). Each player is then passed the set of envelopes, and allowed to open at most half of them. The players win if each one can find his own picture in one of the envelope he opens.
+
+Of course, no information can be passed between players once they start.
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Surprisingly, the players can achieve a constant winning probability, independent of~$n$. If we let~$\sigma $ be the permutation of~$n$ elements induced by the cards in the envelopes, then a strategy is as follows: player~$k$ starts by opening envelope~$k$. If the picture it contains (call the number of its subject~$\sigma (k)$) is~$k$, he's done; otherwise he goes on to open envelope~$\sigma (k)$,\ldots
+
+This strategy will work if and only if~$\sigma $ does not contain a cycle of length strictly greater than~$n/2$. If~$k>n/2$, the number of permutations of~$n$ elements that contain a cycle of length~$k$ is
+$$
+\binom{n}{k}(k-1)!(n-k)!=\frac{n!}{k},
+$$
+so the probability that $\sigma $ contains a cycle of length strictly greater than~$n/2$ is
+$$
+\sum _{k=\left \lfloor \frac{n}{2}\right \rfloor +1}^n\frac{1}{k},
+$$
+which converges to~$\ln (2)$, so the above strategy will succeed with a probability converging (as~$n$ increases) to~$1-\ln(2)$, which is a bit over~$30$\%.
+
+}
+
+%%S
+\section{Chessboard tilings}
+
+%%%%S
+\subsection{Problem}
+
+Is it possible to tile an 8x8 chessboard using 2x1 tiles, leaving two opposite corners untiled?
+
+What about tiling using 3x1 tiles, leaving a single corner untiled?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+The answer is no in both cases. For the first one, notice that the number of black squares tiled is always equal to the number of white squares tiled, but the target configuration does not have this property. For the second one, index the rows from~$0$ to~$7$, and do the same with the columns. Now consider the sum modulo~$3$ of the row and column indices of all tiled squares. It's easy to check that it remains at zero, but the target configuration would have value~$1$.
+
+}
+
+%%%S
+%\section{}
+%
+%%%%%S
+%\subsection{Problem}
+%
+%%%%%S
+%\wrapsol{
+%\subsection{Solution}
+%
+%}
+
+\end{document}

@@ -280,6 +280,79 @@ The answer is no in both cases. For the first one, notice that the number of bla
 }
 
 %%%S
+\section{Robot gathering}
+
+%%%%S
+\subsection{Problem}
+
+$n$ robots are randomly scattered on the 2-D plane. They will asynchronously wake up, and on wake up each robot gets a snapshot of the current situation relative to the direction it is facing (see below for details). After it has woken up, each robot can travel freely on the 2D plane. Can you find a strategy that the robots can follow to make sure that they eventually all end up at the same point?
+
+Note that the initial snapshot a robot gets corresponds to the situation at the time it wakes up: it's possible (likely, even) that other robots have already woken up and started moving, so that the snapshots they get will not be consistent.
+
+A few precisions:
+\begin{itemize}
+\item on their snapshot, the robots cannot identify each other;
+\item they cannot either tell which direction other robots are moving, or whether they're moving or not;
+\item they can, however, tell if there are multiple robots at the same location (and tell how many exactly there are there);
+\item robots don't have a common 'reference direction' (i.e., they don't have something like a compass so that they would all know where the 'north' direction is relative to where they're facing);
+\item robots don't have a common notion of distance;
+\item one can assume that the initial random scattering of the robots is a 'general configuration' (i.e., no three of them lie on the same line,...).
+\end{itemize}
+
+Another way to think of the 'relative' initial snapshot that each one gets is that:
+\begin{itemize}
+\item each robot has a (random) top speed, an exact clock, and can exactly control its speed (between 0 and top speed) and direction;
+\item the initial snapshot given to each robot is a list of~$n-1$ couples $(\theta _i, t_i)$, meaning that there's a robot at an angle~$\theta _i$ from the direction it's initially facing, and at a distance that can be reached in time~$t_i$ if travelling at top speed.
+\end{itemize}
+
+Courtesy of Luke Pebody.
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+A nice solution is to consider the function mapping any point in the plane to the sum of its (Euclidian) distance to the~$n$ robots. If the robots are in a general configuration, there's a unique point minimizing this function: the geometric median. A strategy that works is for each robot to compute the geometric mean of all robots from its initial snapshot, and get there from its current location in a straight line. The reason this works is that the geometric mean is unchanged if a point moves towards it/away from it.
+
+Solution courtesy of Sheng Wang.
+}
+
+%%%S
+\section{The array with the missing number}
+
+%%%%S
+\subsection{Problem}
+
+Given an array of length~$n$ containing all the numbers from~$0$ to~$n$ but one, can you find an algorithm to determine the missing number in time~$\mathcal{O}(n)$ and constant memory?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+One solution is to compute the sum~$s$ of all elements in the array: $\frac{n(n+1)}{2}-s$ will then give the missing element. There are variants (using xor,...), but it's all basically the same idea.
+}
+
+%%%S
+\section{Finding a duplicate}
+
+%%%%S
+\subsection{Problem}
+
+Given an array of length~$n+1$ containing numbers between~$1$ and~$n$, can you find an algorithm that can exhibit a duplicate in the array in time~$\mathcal{O}(n)$ and constant memory? (Note that there is at least one duplicate, but there can be multiple ones, and/or can appear more than twice in the array).
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+If one thinks of the array as a function~$f$ from~$[1,n+1]$ to~$[1,n]$, then if we let~$x_0=n+1$ and $x_{i+1}=f(x_i)$, then necessarily~$(x_i)$ becomes cyclic at some point, but~$x_0$ is not part of the cycle (it's not even in the image of~$f$). The first point in the cycle is then a duplicate. Determining it is now pretty simple:
+\begin{itemize}
+\item $x_n$ has to be in the cycle (since there are at most~$n$ elements in the cycle);
+\item if one then keeps~$x_n$ in memory, as well as a counter, and iterates~$f$ until $x_{n+k}=x_n$, then~$k$ is the length of the cycle;
+\item one can then compute~$x_k$, and then keep iterating~$f$ from both~$x_0$ and~$x_k$ until one finds~$x_p=x_{k+p}$, which is guaranteed to be a duplicate.
+\end{itemize}
+
+}
+
+%%%S
 %\section{}
 %
 %%%%%S
@@ -290,5 +363,6 @@ The answer is no in both cases. For the first one, notice that the number of bla
 %\subsection{Solution}
 %
 %}
+
 
 \end{document}

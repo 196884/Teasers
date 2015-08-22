@@ -279,7 +279,7 @@ The answer is no in both cases. For the first one, notice that the number of bla
 
 }
 
-%%%S
+%%S
 \section{Robot gathering}
 
 %%%%S
@@ -316,7 +316,7 @@ A nice solution is to consider the function mapping any point in the plane to th
 Solution courtesy of Sheng Wang.
 }
 
-%%%S
+%%S
 \section{The array with the missing number}
 
 %%%%S
@@ -331,7 +331,7 @@ Given an array of length~$n$ containing all the numbers from~$0$ to~$n$ but one,
 One solution is to compute the sum~$s$ of all elements in the array: $\frac{n(n+1)}{2}-s$ will then give the missing element. There are variants (using xor,...), but it's all basically the same idea.
 }
 
-%%%S
+%%S
 \section{Finding a duplicate}
 
 %%%%S
@@ -349,8 +349,41 @@ If one thinks of the array as a function~$f$ from~$[1,n+1]$ to~$[1,n]$, then if 
 \item if one then keeps~$x_n$ in memory, as well as a counter, and iterates~$f$ until $x_{n+k}=x_n$, then~$k$ is the length of the cycle;
 \item one can then compute~$x_k$, and then keep iterating~$f$ from both~$x_0$ and~$x_k$ until one finds~$x_p=x_{k+p}$, which is guaranteed to be a duplicate.
 \end{itemize}
-
 }
+
+%%S
+\section{Area of the random projection of a polygon}
+
+%%%%S
+\subsection{Problem}
+A polygon (in three-dimensional space) is projected on a random plane (the normal vector to this plane is uniformly distributed on the unit sphere). What is the average area of the projection, as a function of the area~$S$ of the polygon?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Note that by considering a sphere, the answer should be~$S/4$. Now, we can use the linearity of the expectation to restrict ourselves to one of the faces of the polygon. If its area is~$S$, then the area of its projection on a plane which normal is at an angle~$\theta $ with the angle of the normal to the face is~$S\cos (\theta )$ (more precisely, the absolute value of this). Integrating over the surface of the unit sphere for all possible projection planes gives:
+$$
+\frac{2S}{4\pi }\int _0^{2\pi }d\phi \int _0 ^{\pi /2}\cos \theta \sin \theta d\theta,
+$$
+which indeed evaluates to~$S/4$.
+}
+
+%%S
+\section{Skyline problem}
+
+%%%%S
+\subsection{Problem}
+
+You are given a list of~$n$ triples of the form~$(x_{n,l},x_{n,h},h_n)$ with~$x_{n,l}<x_{n,h}$: each such triple represents a building ($h_n$ is its height, and it lies between~$x_{n,l}$ and~$x_{n,h}$). You have to output a description of the skyline implied by these buildings (note that they can 'intersect' with some being in front or behind of others). This description should be in the form of a list~$[(x_0,h_0),(x_1,h_1),\ldots ,(x_k,0)]$ with~$x_i<x_{i+1}$. Try to optimize for the worst case complexity.
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Sort the triples according to their last element (in a decreasing order). Use an interval tree to store the solution being constructed (note that, because we're considering buildings in decreasing height order, no interval in the partial solution will ever have to be split). This will ensure a solution in~$\mathcal{O}(n \log n)$.
+}
+
 
 %%%S
 %\section{}

@@ -384,6 +384,42 @@ You are given a list of~$n$ triples of the form~$(x_{n,l},x_{n,h},h_n)$ with~$x_
 Sort the triples according to their last element (in a decreasing order). Use an interval tree to store the solution being constructed (note that, because we're considering buildings in decreasing height order, no interval in the partial solution will ever have to be split). This will ensure a solution in~$\mathcal{O}(n \log n)$.
 }
 
+%%S
+\section{Asymmetric random walk's visits through the origin}
+
+%%%%S
+\subsection{Problem}
+Consider a random walk starting at~$0$, which from~$j$ goes to~$j+1$ with probability~$p>1/2$ and to~$j-1$ with probability~$1-p$. What is the average number of times it will visit~$0$?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Let~$f_n$ be the probability of (ever) visiting~$0$ starting from~$n$. Obviously, $f_0=1$ and for~$n\neq 0$, $f_n=pf_{n+1}+(1-p)f_{n-1}$. If we let~$p=1/2+\alpha $, then we find that~$f_n$ should be of the form~$A+B\beta ^n$ with~$\beta =\frac{1-2\alpha }{1+2\alpha }$ (note that the constants~$A$ and~$B$ will also depend on the sign of~$n$, as we're solving a different problem on each side of~$0$). We must have $f_n=1$ for~$n\leq 0$, and $f_n=\beta ^n$ for~$n\geq 0$.
+
+The average number of times~$N$ through the origin must verify
+$$
+N=1+\frac{1+\beta }{2}N,
+$$
+which gives~$N=\frac{2p}{2p-1}$.
+}
+
+%%S
+\section{Two real symmetric matrices}
+
+%%%%S
+\subsection{Problem}
+
+Let~$A$ and~$B$ be two real symmetric matrices such that~$\mathop{tr} A>0$ and~$\mathop{tr} B<0$. Prove that there exists a vector~$x$ such that~$x^TAx>0$ and~$x^TBx<0$.
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Without loss of generality, we can assume that~$A$ is diagonal. Now consider the~$2^n$ vectors which coordinates are~$\pm 1$. For each such vector~$y$, $y^TAy=\mathop{tr} A>0$. But then, the average of~$y^TBy$ over these~$2^n$ vectors is~$\mathop{tr} B<0$, so that~$y^TBy<0$ for at least one of them.
+
+}
+
 
 %%%S
 %\section{}

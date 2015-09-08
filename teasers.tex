@@ -420,6 +420,76 @@ Without loss of generality, we can assume that~$A$ is diagonal. Now consider the
 
 }
 
+%%S
+\section{A basket of red and green apples}
+
+%%%%S
+\subsection{Problem}
+
+There are~$M$ green and~$N$ red apples in a basket. We take apples out randomly one by one until all the apples left in the basket are red. What is the probability that the basket is empty at the moment at which we stop?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+It is~$\frac{M}{M+N}$, which can be proven by induction on~$M+N$, or by noticing that it's equivalent to initially randomly number all the apples, then pick them in that order. In this setting, the basket is empty at the end if a green apple is the last one numbered. The probability for this is the same as for a green apple to be the first one numbered, which is~$\frac{M}{N+1}$.
+}
+
+%%S
+\section{Couples at the movies}
+
+%%%%S
+\subsection{Problem}
+
+$M$~boys and~$N$ girls go to the movies; they've booked a complete row of exactly~$M+N$ seats, on which they seat at random. On average, how many pairs of adjacent seats are occupied by different gender viewers?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+The solution is~$\frac{2MN}{M+N}$. One can prove this by induction (conditioning on the gender of the occupant of the first seat in the row, and using some form of symmetry). However, it's much simpler to consider a given pair of adjacent seats: the probability that it's occupied by different gender viewers is~$\frac{2MN}{(M+N)(M+N-1)}$. Since expectation is linear, we can simply sum this probability over all~$M+N-1$ pairs of adjacent seats, yielding the result.
+
+}
+
+%%S
+\section{A plane seating problem}
+
+%%%%S
+\subsection{Problem}
+
+A plane with~$n$ seats is fully booked, and all but one passengers are on their way back from a bachelor's party and pretty drunk. All~$n-1$ of them have taken seats at random when the last passenger arrives, and insist on seating at his assigned seat. If it's taken, the passenger seating there will leave the seat and go to his initially assigned seat, and the same thing will repeat (if someone else's there, they will have to go to their assigned seat,...). On average, how many passengers have to change seat?
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+Assume for now that the last passenger sits at the last remaining seat, then decides to get his assigned seat (the only difference is that he will have to be counted in the moves too if he's not at his assigned seat). Then the average number of people who will have to move is exactly the length of the cycle containing the last element. By summing over all possible lengths for this cycle, one easily gets that it's average length is~$\frac{n+1}{2}$, so that the final result is~$\frac{n-1}{2}$.
+}
+
+%%S
+\section{A large exam}
+
+%%%%S
+\subsection{Problem}
+
+Students who are taking an exam are seated on one side of an infinite table. The probability that a student can find the answer independently is~$\frac{1}{2}$. However, each student can also try to peek from his right and left neighbors, and will succeed with a probability of~$\frac{1}{4}$ for each. These events are independent. What's the probability for a student to get the answer and pass the exam? (Assume that if a student was able to find the answer by solving or copying, the students who have been able to peek at his work will also get the answer).
+
+%%%%S
+\wrapsol{
+\subsection{Solution}
+
+Consider the same problem, but you pick two neighboring students and totally prevent them from copying on each other. By symmetry, they have the same probability, say~$q$, of passing the exam. And for one of these two students (call him~$X$) either he finds the answer himself (probability~$\frac{1}{2}$), or he doesn't and manages to copy on the one neighbor (call him~$Y$) he can copy on. The probability for~$Y$ to have the answer if~$X$ didn't find it clearly is also~$q$, so that:
+$$
+q=\frac{1}{2}+\frac{1}{2}\frac{q}{4},
+$$
+which gives~$q=\frac{4}{7}$.
+
+Now, the probability for student~$X$ to get the answer is the probability that he can find it without peeking on one of his neighbor (which is~$q$ as per the above), plus the probability that this doesn't work ($1-q$) times the probability he can succeed by peeking on the previously forbidden neighbor ($\frac{1}{4}$) times the probability this neighbor has the solution without peeking at~$X$ ($q$), so that if~$p$ is the probability we're looking for:
+$$
+p=q+(1-q)\frac{q}{4},
+$$
+which finally gives~$q=\frac{31}{49}$.
+
+}
+
 
 %%%S
 %\section{}

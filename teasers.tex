@@ -505,6 +505,41 @@ $$
 \wrapsol{
 \subsection{Solution}
 
+Here's how I approached this. I first noticed that taking $\alpha = 0$
+gives the answer $\pi / 4$. I then sketched charts for various values
+of $\alpha$ (one could use a computer for this but I didn't) and
+noticed that for $\alpha \gg 1$, the function is almost 0 in the range
+$(1,\infty)$ and almost $1/(x^2 + 1)$ in the range $(0,1)$.  I further
+transformed the integral (you probably don't have to do this) by
+setting $\tan y = x$ to get
+
+\[
+\int_0^{\pi/2} \frac{\mathrm{d}x}{1 + \tan^\alpha x}
+\]
+
+So I split the integral at $\tan \pi / 4 = 1$.
+
+\[
+\begin{aligned}
+\int_0^{\pi/2} \frac{\mathrm{d}x}{1 + \tan^\alpha x} &=
+\int_0^{\pi/4} \frac{\mathrm{d}x}{1 + \tan^\alpha x} +
+\int_{\pi/4}^{\pi/2} \frac{\mathrm{d}x}{1 + \tan^\alpha x} \\
+&=
+\int_0^{\pi/4} \frac{\mathrm{d}x}{1 + \tan^\alpha x} +
+\int_{\pi/4}^{\pi/2} \frac{\mathrm{d}x}{1 + \frac{1}{\tan^\alpha (\pi / 2 - x)}} \\
+&=
+\int_0^{\pi/4} \frac{\mathrm{d}x}{1 + \tan^\alpha x} -
+\int_{\pi/4}^0 \frac{\mathrm{d}x}{1 + \frac{1}{\tan^\alpha x}} \\
+&=
+\int_0^{\pi/4} \frac{\mathrm{d}x}{1 + \tan^\alpha x} -
+\int_0^{\pi/4} \frac{\tan^\alpha x}{{\tan^\alpha x} + 1}\mathrm{d}x \\
+&=
+\int_0^{\pi/4} \mathrm{d}x \\
+&=
+\pi / 4
+\end{aligned}
+\]
+
 }
 
 
